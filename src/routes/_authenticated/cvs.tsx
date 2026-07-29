@@ -32,6 +32,18 @@ function CVs() {
       return;
     }
     setUploading(true);
+    const {
+      data: { session },
+      error: sessionError,
+    } = await supabase.auth.getSession();
+
+    console.log("Session exists:", Boolean(session));
+    console.log("Signed-in user:", session?.user.email);
+    console.log("Session error:", sessionError);
+
+    if (!session) {
+      throw new Error("No valid login session. Please sign in again.");
+    }
     try {
       let filePath: string | null = null;
       let fileType: string | null = null;
@@ -45,9 +57,18 @@ function CVs() {
         filePath = path;
         fileType = file.type || file.name.split(".").pop() || null;
       }
-      await save({ data: { name: name || file?.name || "Untitled CV", file_path: filePath, file_type: fileType, extracted_text: text } });
+      await save({
+        data: {
+          name: name || file?.name || "Untitled CV",
+          file_path: filePath,
+          file_type: fileType,
+          extracted_text: text,
+        },
+      });
       toast.success("CV saved");
-      setName(""); setFile(null); setText("");
+      setName("");
+      setFile(null);
+      setText("");
       qc.invalidateQueries({ queryKey: ["cvs"] });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to save CV");
@@ -66,14 +87,23 @@ function CVs() {
   return (
     <AppShell>
       <h1 className="text-3xl font-bold tracking-tight">My CVs</h1>
-      <p className="text-muted-foreground mt-1">Upload a PDF or DOCX, and paste the text so we can analyse it against roles.</p>
+      <p className="text-muted-foreground mt-1">
+        Upload a PDF or DOCX, and paste the text so we can analyse it against roles.
+      </p>
 
       <div className="mt-6 grid gap-6 md:grid-cols-2">
         <form onSubmit={onSubmit} className="rounded-xl border border-border bg-card p-6 space-y-4">
-          <h2 className="font-semibold flex items-center gap-2"><Upload className="h-4 w-4" /> Add a CV</h2>
+          <h2 className="font-semibold flex items-center gap-2">
+            <Upload className="h-4 w-4" /> Add a CV
+          </h2>
           <div>
             <label className="text-sm font-medium">Name</label>
-            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Grad CV v3" className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" />
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. Grad CV v3"
+              className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            />
           </div>
           <div>
             <label className="text-sm font-medium">File (PDF or DOCX, optional)</label>
@@ -86,7 +116,9 @@ function CVs() {
           </div>
           <div>
             <label className="text-sm font-medium">CV text</label>
-            <p className="text-xs text-muted-foreground mb-1">Copy the text from your CV and paste it here — this is what the AI reads.</p>
+            <p className="text-xs text-muted-foreground mb-1">
+              Copy the text from your CV and paste it here — this is what the AI reads.
+            </p>
             <textarea
               rows={10}
               required
@@ -96,7 +128,10 @@ function CVs() {
               className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-mono"
             />
           </div>
-          <button disabled={uploading} className="w-full py-2.5 rounded-md bg-primary text-primary-foreground font-medium disabled:opacity-50">
+          <button
+            disabled={uploading}
+            className="w-full py-2.5 rounded-md bg-primary text-primary-foreground font-medium disabled:opacity-50"
+          >
             {uploading ? "Saving…" : "Save CV"}
           </button>
         </form>
@@ -112,15 +147,23 @@ function CVs() {
           ) : (
             <div className="space-y-2">
               {cvs.map((c) => (
-                <div key={c.id} className="flex items-center justify-between rounded-lg border border-border bg-card p-4">
+                <div
+                  key={c.id}
+                  className="flex items-center justify-between rounded-lg border border-border bg-card p-4"
+                >
                   <div className="flex items-center gap-3 min-w-0">
                     <FileText className="h-4 w-4 text-primary shrink-0" />
                     <div className="min-w-0">
                       <div className="font-medium truncate">{c.name}</div>
-                      <div className="text-xs text-muted-foreground">{new Date(c.created_at).toLocaleDateString()}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {new Date(c.created_at).toLocaleDateString()}
+                      </div>
                     </div>
                   </div>
-                  <button onClick={() => onDelete(c.id)} className="text-muted-foreground hover:text-destructive p-1">
+                  <button
+                    onClick={() => onDelete(c.id)}
+                    className="text-muted-foreground hover:text-destructive p-1"
+                  >
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </div>
