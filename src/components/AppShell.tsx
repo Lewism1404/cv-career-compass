@@ -38,7 +38,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                 key={l.to}
                 to={l.to}
                 className="px-3 py-1.5 rounded-md text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-                activeProps={{ className: "px-3 py-1.5 rounded-md text-sm bg-secondary text-foreground font-medium" }}
+                activeProps={{
+                  className:
+                    "px-3 py-1.5 rounded-md text-sm bg-secondary text-foreground font-medium",
+                }}
               >
                 {l.label}
               </Link>
@@ -57,7 +60,10 @@ export function AppShell({ children }: { children: ReactNode }) {
               key={l.to}
               to={l.to}
               className="whitespace-nowrap px-3 py-1.5 rounded-md text-xs bg-secondary text-secondary-foreground"
-              activeProps={{ className: "whitespace-nowrap px-3 py-1.5 rounded-md text-xs bg-primary text-primary-foreground font-medium" }}
+              activeProps={{
+                className:
+                  "whitespace-nowrap px-3 py-1.5 rounded-md text-xs bg-primary text-primary-foreground font-medium",
+              }}
             >
               {l.label}
             </Link>
