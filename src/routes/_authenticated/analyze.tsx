@@ -74,18 +74,36 @@ function Analyze() {
     <AppShell>
       <div className="max-w-2xl">
         <h1 className="text-3xl font-bold tracking-tight">Analyse a CV</h1>
-        <p className="text-muted-foreground mt-1">Choose a CV and target role — we'll do the rest.</p>
+        <p className="text-muted-foreground mt-1">
+          Choose a CV and target role — we'll do the rest.
+        </p>
 
-        <form onSubmit={onSubmit} className="mt-6 rounded-xl border border-border bg-card p-6 space-y-5">
+        <form
+          onSubmit={onSubmit}
+          className="mt-6 rounded-xl border border-border bg-card p-6 space-y-5"
+        >
           <div>
             <label className="text-sm font-medium">CV</label>
             {!cvs?.length ? (
-              <div className="mt-2 text-sm text-muted-foreground">No CVs yet. <a href="/cvs" className="text-primary underline">Add one first</a>.</div>
+              <div className="mt-2 text-sm text-muted-foreground">
+                No CVs yet.{" "}
+                <a href="/cvs" className="text-primary underline">
+                  Add one first
+                </a>
+                .
+              </div>
             ) : (
-              <select value={cvId} onChange={(e) => setCvId(e.target.value)} className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" required>
+              <select
+                value={cvId}
+                onChange={(e) => setCvId(e.target.value)}
+                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                required
+              >
                 <option value="">Select a CV…</option>
                 {cvs.map((c) => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
                 ))}
               </select>
             )}
@@ -96,7 +114,17 @@ function Analyze() {
               <label className="text-sm font-medium">Recommended for you</label>
               <div className="mt-2 flex flex-wrap gap-2">
                 {recommended.map((r) => (
-                  <button type="button" key={r} onClick={() => { setRole(r); setCustomRole(""); }} className={`px-3 py-1.5 rounded-full text-xs border ${role === r ? "bg-primary text-primary-foreground border-primary" : "border-border hover:bg-secondary"}`}>{r}</button>
+                  <button
+                    type="button"
+                    key={r}
+                    onClick={() => {
+                      setRole(r);
+                      setCustomRole("");
+                    }}
+                    className={`px-3 py-1.5 rounded-full text-xs border ${role === r ? "bg-primary text-primary-foreground border-primary" : "border-border hover:bg-secondary"}`}
+                  >
+                    {r}
+                  </button>
                 ))}
               </div>
             </div>
@@ -104,23 +132,48 @@ function Analyze() {
 
           <div>
             <label className="text-sm font-medium">Or pick a common role</label>
-            <select value={PRESET_ROLES.includes(role) ? role : ""} onChange={(e) => { setRole(e.target.value); setCustomRole(""); }} className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+            <select
+              value={PRESET_ROLES.includes(role) ? role : ""}
+              onChange={(e) => {
+                setRole(e.target.value);
+                setCustomRole("");
+              }}
+              className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            >
               <option value="">Select…</option>
-              {PRESET_ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
+              {PRESET_ROLES.map((r) => (
+                <option key={r} value={r}>
+                  {r}
+                </option>
+              ))}
             </select>
           </div>
 
           <div>
             <label className="text-sm font-medium">Or enter a custom role</label>
-            <input value={customRole} onChange={(e) => setCustomRole(e.target.value)} placeholder="e.g. Junior DevOps Engineer" className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" />
+            <input
+              value={customRole}
+              onChange={(e) => setCustomRole(e.target.value)}
+              placeholder="e.g. Junior DevOps Engineer"
+              className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            />
           </div>
 
           <div>
             <label className="text-sm font-medium">Job description (optional)</label>
-            <textarea rows={5} value={jd} onChange={(e) => setJd(e.target.value)} placeholder="Paste the job description for a more targeted analysis." className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" />
+            <textarea
+              rows={5}
+              value={jd}
+              onChange={(e) => setJd(e.target.value)}
+              placeholder="Paste the job description for a more targeted analysis."
+              className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            />
           </div>
 
-          <button disabled={loading} className="w-full py-3 rounded-md bg-primary text-primary-foreground font-medium disabled:opacity-50">
+          <button
+            disabled={loading}
+            className="w-full py-3 rounded-md bg-primary text-primary-foreground font-medium disabled:opacity-50"
+          >
             {loading ? "Analysing your CV…" : "Analyse CV"}
           </button>
         </form>

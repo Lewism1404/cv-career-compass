@@ -10,10 +10,7 @@ type ChatCompletionResponse = {
   choices?: Array<{ message?: { content?: string } }>;
 };
 
-export async function chatJSON<T = unknown>(
-  model: string,
-  messages: ChatMessage[],
-): Promise<T> {
+export async function chatJSON<T = unknown>(model: string, messages: ChatMessage[]): Promise<T> {
   const apiKey = process.env.AI_API_KEY;
   const baseUrl = (process.env.AI_BASE_URL ?? "https://api.openai.com/v1").replace(/\/$/, "");
 

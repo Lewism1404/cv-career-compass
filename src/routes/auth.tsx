@@ -80,10 +80,16 @@ function AuthPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-background">
       <div className="w-full max-w-md">
-        <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← Home</Link>
+        <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
+          ← Home
+        </Link>
         <div className="mt-4 rounded-2xl border border-border bg-card p-8 shadow-sm">
           <h1 className="text-2xl font-bold tracking-tight">
-            {mode === "signup" ? "Create your account" : mode === "forgot" ? "Reset password" : "Welcome back"}
+            {mode === "signup"
+              ? "Create your account"
+              : mode === "forgot"
+                ? "Reset password"
+                : "Welcome back"}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {mode === "signup"
@@ -102,7 +108,8 @@ function AuthPage() {
                 Continue with Google
               </button>
               <div className="my-4 flex items-center gap-2 text-xs text-muted-foreground">
-                <div className="h-px flex-1 bg-border" /> or <div className="h-px flex-1 bg-border" />
+                <div className="h-px flex-1 bg-border" /> or{" "}
+                <div className="h-px flex-1 bg-border" />
               </div>
             </>
           )}
@@ -146,18 +153,30 @@ function AuthPage() {
               disabled={loading}
               className="w-full py-2.5 rounded-md bg-primary text-primary-foreground font-medium hover:opacity-90 disabled:opacity-50"
             >
-              {loading ? "Please wait..." : mode === "signup" ? "Create account" : mode === "forgot" ? "Send reset link" : "Sign in"}
+              {loading
+                ? "Please wait..."
+                : mode === "signup"
+                  ? "Create account"
+                  : mode === "forgot"
+                    ? "Send reset link"
+                    : "Sign in"}
             </button>
           </form>
 
           <div className="mt-4 flex justify-between text-xs text-muted-foreground">
             {mode === "signin" ? (
               <>
-                <button onClick={() => setMode("forgot")} className="hover:underline">Forgot password?</button>
-                <button onClick={() => setMode("signup")} className="hover:underline">Create account</button>
+                <button onClick={() => setMode("forgot")} className="hover:underline">
+                  Forgot password?
+                </button>
+                <button onClick={() => setMode("signup")} className="hover:underline">
+                  Create account
+                </button>
               </>
             ) : (
-              <button onClick={() => setMode("signin")} className="hover:underline">← Back to sign in</button>
+              <button onClick={() => setMode("signin")} className="hover:underline">
+                ← Back to sign in
+              </button>
             )}
           </div>
         </div>
